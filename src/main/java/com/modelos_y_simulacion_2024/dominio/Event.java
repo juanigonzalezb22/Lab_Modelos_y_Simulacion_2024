@@ -31,7 +31,7 @@ public final class Event {
 
   @Override
   public String toString() {
-    return super.toString();
+    return ("Clock: "+this.clock+"\nEntidad: "+this.enditad.getId()+"\nTipo: "+this.planificator.getTypeOrder()+"\n");
   }
 
 }

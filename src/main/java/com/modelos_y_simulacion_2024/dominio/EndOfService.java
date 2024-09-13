@@ -15,11 +15,20 @@ public class EndOfService implements Planificator {
       Entidad entity = server.getQueue().nextEntity();
       server.setEntity(entity);
       entity.setServer(server);
-      fel.insertEvent(new Event(e.getClock() + e.getBehavior().nextTime(), e.getBehavior(), entity, this));
+
+      EndOfService end_of_service = new EndOfService();
+      Event evento = new Event( e.getClock() + e.getBehavior().nextTime(), e.getBehavior(), entity, end_of_service );
+      end_of_service.setEvent(evento);
+      fel.insertEvent(evento);
     } else {
       server.setEntity(null);
       this.e.getEnditad().setServer(null);
     }
+  }
+
+  @Override
+  public void setEvent(Event e) {
+    this.e = e;
   }
 
   @Override

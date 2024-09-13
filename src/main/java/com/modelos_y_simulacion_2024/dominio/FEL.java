@@ -40,4 +40,14 @@ public class FEL {
     return this.fel_imp.remove(0);
   }
 
+  @Override
+  public String toString() {
+    String cadena = "-----------------------------------------------------\n";
+    for(int i=0;i<this.fel_imp.size();i++){
+      cadena += this.fel_imp.get(i).toString()+"\n";
+    }
+    cadena += "\n-----------------------------------------------------";
+    return cadena;
+  }
+  
 }

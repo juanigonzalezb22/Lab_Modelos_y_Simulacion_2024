@@ -1,14 +1,14 @@
 package com.modelos_y_simulacion_2024.escenario;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.modelos_y_simulacion_2024.dominio.Behavior;
 import com.modelos_y_simulacion_2024.dominio.Bootstraping;
 import com.modelos_y_simulacion_2024.dominio.Server;
 
 
 public final class Airport extends Bootstraping {
   
-  public Airport( float simulation_time, Behavior arrivalBehavior, Behavior eosBehavior ){ {
+  public Airport(float simulation_time, Behavior arrivalBehavior, Behavior eosBehavior ){
     super(simulation_time,arrivalBehavior,eosBehavior);
 
     List<Server> servers = new ArrayList<Server>();
@@ -19,5 +19,4 @@ public final class Airport extends Bootstraping {
 
     this.setServers(servers);
   }
-
 }

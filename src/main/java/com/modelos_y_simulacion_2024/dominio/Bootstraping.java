@@ -2,6 +2,8 @@ package com.modelos_y_simulacion_2024.dominio;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 public abstract class Bootstraping implements Engine {
   private float simulation_time;
   private FEL fel;
@@ -17,23 +19,26 @@ public abstract class Bootstraping implements Engine {
 
 
     Arrival a = new Arrival();
-    Event e = new Event(0, null, new Entidad(0),a);
+    Event e = new Event(0, arrivalBehavior, new Entidad(0),a);
     a.setEvent(e);
+    a.setEndOfServiceBehavior(eosBehavior);
     fel.insertEvent(e);
   }
 
   public void execute(){
     Event e;
     do{
+      System.out.println( this.fel.toString() );
+      
       e = this.fel.imminent();
-
-      e.getPlanificator().planificate( this.servers, this.fel );
+      
+      e.getPlanificator().planificate(this.servers, this.fel);
 
     }while( e.getClock() <= this.simulation_time );
   }
 
   public void generate_report(){
-
+    throw new RuntimeErrorException(null, "todavia no esta hecho este metodo");
   }
 
   public void setServers(List<Server> servers){
