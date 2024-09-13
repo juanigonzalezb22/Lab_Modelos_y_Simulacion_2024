@@ -15,4 +15,3 @@ public class Main {
         e.generate_report();
     }
 }
-

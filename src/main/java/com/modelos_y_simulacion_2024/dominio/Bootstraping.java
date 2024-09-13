@@ -38,7 +38,7 @@ public abstract class Bootstraping implements Engine {
   }
 
   public void generate_report(){
-    throw new RuntimeErrorException(null, "todavia no esta hecho este metodo");
+    System.out.println("te imprimo esto solo porque todavia no hice un reporte copado");
   }
 
   public void setServers(List<Server> servers){
