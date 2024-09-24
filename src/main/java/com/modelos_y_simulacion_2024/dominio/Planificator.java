@@ -4,11 +4,12 @@ import java.util.List;
 
 public interface Planificator {
   
-  void planificate(List<Server> servers, FEL fel);
+  void planificate(List<Server> servers, FEL fel, DataManager dataManager);
 
   int getTypeOrder();
 
   Event getEvent();
 
   void setEvent(Event e);
+
 }

@@ -3,17 +3,13 @@ package com.modelos_y_simulacion_2024.dominio;
 import java.util.List;
 
 public class Arrival implements Planificator {
-
+  
   private Event e;
   private Behavior eosBehavior;
 
-  public Arrival() {
-  }
-
-
   @Override
-  public void planificate(List<Server> servers, FEL fel) {
-
+  public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
+    int next_clock = this.e.getClock() + this.e.getBehavior().nextTime();
     Server server = servers.get(0);
 
     if (server.isBusy()) {
@@ -22,16 +18,18 @@ public class Arrival implements Planificator {
       server.setEntity(this.e.getEnditad());
       this.e.getEnditad().setServer(server);
       
+      dataManager.incCantServidos();
+      server.finalizaTiempoOcio(this.e.getClock());
+      
       EndOfService end_of_server = new EndOfService();
       Event evento = new Event(this.e.getClock() + this.eosBehavior.nextTime(), this.eosBehavior, this.e.getEnditad(), end_of_server );
       end_of_server.setEvent(evento);
       fel.insertEvent(evento);
     }
-
-    Entidad entidad = new Entidad(e.getEnditad().getId() + 1);
-
+    
     Arrival a = new Arrival();
-    Event new_event = new Event(this.e.getClock() + this.e.getBehavior().nextTime(), this.e.getBehavior(), entidad, a );
+    Entidad entidad = new Entidad(e.getEnditad().getId() + 1, next_clock);
+    Event new_event = new Event(next_clock,this.e.getBehavior(), entidad, a );
     a.setEvent(new_event);
     a.setEndOfServiceBehavior(eosBehavior);
     fel.insertEvent(new_event);

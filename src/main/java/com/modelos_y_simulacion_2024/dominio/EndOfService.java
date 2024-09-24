@@ -7,7 +7,7 @@ public class EndOfService implements Planificator {
   private Event e;
 
   @Override
-  public void planificate(List<Server> servers, FEL fel) {
+  public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
 
     Server server = this.e.getEnditad().getServer();
 
@@ -16,6 +16,9 @@ public class EndOfService implements Planificator {
       server.setEntity(entity);
       entity.setServer(server);
 
+      dataManager.acumularTiempoEspera(this.e.getClock() - entity.getClockArrival());
+      dataManager.incCantServidos();
+      
       EndOfService end_of_service = new EndOfService();
       Event evento = new Event( e.getClock() + e.getBehavior().nextTime(), e.getBehavior(), entity, end_of_service );
       end_of_service.setEvent(evento);
@@ -23,7 +26,11 @@ public class EndOfService implements Planificator {
     } else {
       server.setEntity(null);
       this.e.getEnditad().setServer(null);
+
+      server.incioTiempoOcio(this.e.getClock());
     }
+
+    dataManager.acumularTiempoDeTrancito(this.e.getClock() - this.e.getEnditad().getClockArrival());
   }
 
   @Override
