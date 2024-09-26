@@ -9,7 +9,7 @@ public class Arrival implements Planificator {
 
   @Override
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
-    int next_clock = this.e.getClock() + this.e.getBehavior().nextTime();
+    float next_clock = this.e.getClock() + this.e.getBehavior().nextTime();
     Server server = servers.get(0);
 
     if (server.isBusy()) {
@@ -18,12 +18,11 @@ public class Arrival implements Planificator {
       server.setEntity(this.e.getEnditad());
       this.e.getEnditad().setServer(server);
       
-      dataManager.incCantServidos();
       server.finalizaTiempoOcio(this.e.getClock());
       
-      EndOfService end_of_server = new EndOfService();
-      Event evento = new Event(this.e.getClock() + this.eosBehavior.nextTime(), this.eosBehavior, this.e.getEnditad(), end_of_server );
-      end_of_server.setEvent(evento);
+      EndOfService end_of_service = new EndOfService();
+      Event evento = new Event(this.e.getClock() + this.eosBehavior.nextTime(), this.eosBehavior, this.e.getEnditad(), end_of_service );
+      end_of_service.setEvent(evento);
       fel.insertEvent(evento);
     }
     

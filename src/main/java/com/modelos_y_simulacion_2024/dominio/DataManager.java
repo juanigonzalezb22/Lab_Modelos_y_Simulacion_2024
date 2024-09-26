@@ -22,11 +22,11 @@ public class DataManager {
         this.cantServidos++;
     }
 
-    public void acumularTiempoEspera(int tiempoEsperado){
+    public void acumularTiempoEspera(float tiempoEsperado){
         this.tiempoDeEsperaAcumulado += tiempoEsperado;
     }
 
-    public void acumularTiempoDeTrancito(int tiempoTrancito){
+    public void acumularTiempoDeTrancito(float tiempoTrancito){
         this.tiempoDeTrancito += tiempoTrancito;
     }
 }

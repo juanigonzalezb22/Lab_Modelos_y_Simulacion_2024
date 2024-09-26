@@ -10,26 +10,29 @@ public class EndOfService implements Planificator {
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
 
     Server server = this.e.getEnditad().getServer();
+    
 
     if( !server.getQueue().isEmpty() ){
       Entidad entity = server.getQueue().nextEntity();
       server.setEntity(entity);
       entity.setServer(server);
 
-      dataManager.acumularTiempoEspera(this.e.getClock() - entity.getClockArrival());
-      dataManager.incCantServidos();
-      
+      entity.setClock_inicio_servicio(this.e.getClock());
+
       EndOfService end_of_service = new EndOfService();
       Event evento = new Event( e.getClock() + e.getBehavior().nextTime(), e.getBehavior(), entity, end_of_service );
       end_of_service.setEvent(evento);
       fel.insertEvent(evento);
     } else {
+      
       server.setEntity(null);
       this.e.getEnditad().setServer(null);
 
       server.incioTiempoOcio(this.e.getClock());
     }
 
+    dataManager.incCantServidos();
+    dataManager.acumularTiempoEspera(this.e.getClock() - this.e.getEnditad().getClock_inicio_servicio());
     dataManager.acumularTiempoDeTrancito(this.e.getClock() - this.e.getEnditad().getClockArrival());
   }
 
@@ -47,5 +50,4 @@ public class EndOfService implements Planificator {
   public Event getEvent() {
     return e;
   }
-
 }

@@ -4,16 +4,24 @@ public class Entidad {
 
   private Server server;
   private final int id;
-  private final int clock_arribo;
+  private final float clock_arribo;
+  
+  private float clock_inicio_servicio;
 
-  Entidad(int id, int clock){
-    this.id = id;
-    this.clock_arribo = clock;
+  public float getClock_arribo() {
+    return this.clock_arribo;
   }
 
-  // public void setArrivalClock(int clock){
-  //   this.clock_arribo = clock;
-  // }
+
+
+  Entidad(int id, float clock_arribo){
+    this.id = id;
+    this.clock_arribo = clock_arribo;
+    // supongo que entra al servicio cuando arriba, en caso
+    // de que no sea asi, la dinamica del booststrapping debe encargarse
+    // de volver a setear este valor; sino se rompe todo
+    this.clock_inicio_servicio = clock_arribo;
+  }
 
   public void setServer(Server server){
     this.server = server;
@@ -27,7 +35,15 @@ public class Entidad {
     return id;
   }
 
-  public int getClockArrival(){
+  public float getClockArrival(){
     return clock_arribo;
+  }
+
+  public float getClock_inicio_servicio() {
+    return this.clock_inicio_servicio;
+  }
+
+  public void setClock_inicio_servicio(float clock_inicio_servicio) {
+    this.clock_inicio_servicio = clock_inicio_servicio;
   }
 }

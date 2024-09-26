@@ -9,8 +9,8 @@ import com.modelos_y_simulacion_2024.dominio.DataManager;
 
 public final class Airport extends Bootstraping {
   
-  public Airport(float simulation_time, Behavior arrivalBehavior, Behavior eosBehavior, DataManager dataManager ){
-    super(simulation_time,arrivalBehavior,eosBehavior, dataManager);
+  public Airport(float init_time, float simulation_length, Behavior arrivalBehavior, Behavior eosBehavior, DataManager dataManager ){
+    super(init_time,simulation_length,arrivalBehavior,eosBehavior, dataManager);
 
     List<Server> servers = new ArrayList<Server>();
 

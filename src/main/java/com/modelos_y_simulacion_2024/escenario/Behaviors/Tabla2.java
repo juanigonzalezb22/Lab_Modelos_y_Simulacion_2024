@@ -12,7 +12,7 @@ public class Tabla2 implements Behavior{
   }
 
   @Override
-  public int nextTime() {
+  public float nextTime() {
 
     numero = this.randomizer.nextRandom();
 
