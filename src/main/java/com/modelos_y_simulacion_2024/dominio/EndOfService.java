@@ -17,22 +17,22 @@ public class EndOfService implements Planificator {
       server.setEntity(entity);
       entity.setServer(server);
 
-      entity.setClock_inicio_servicio(this.e.getClock());
+      entity.setFinEspera(this.e.getClock());
 
       EndOfService end_of_service = new EndOfService();
       Event evento = new Event( e.getClock() + e.getBehavior().nextTime(), e.getBehavior(), entity, end_of_service );
       end_of_service.setEvent(evento);
       fel.insertEvent(evento);
     } else {
-      
+
       server.setEntity(null);
       this.e.getEnditad().setServer(null);
 
       server.incioTiempoOcio(this.e.getClock());
     }
 
+    dataManager.acumularTiempoEspera(this.e.getEnditad().getFinEspera() - this.e.getEnditad().getClock_inicio_espera());
     dataManager.incCantServidos();
-    dataManager.acumularTiempoEspera(this.e.getClock() - this.e.getEnditad().getClock_inicio_servicio());
     dataManager.acumularTiempoDeTrancito(this.e.getClock() - this.e.getEnditad().getClockArrival());
   }
 

@@ -13,7 +13,10 @@ public class Arrival implements Planificator {
     Server server = servers.get(0);
 
     if (server.isBusy()) {
+
       server.enqueue(this.e.getEnditad());
+      this.e.getEnditad().setClock_inicio_espera(this.e.getClock());
+
     } else {
       server.setEntity(this.e.getEnditad());
       this.e.getEnditad().setServer(server);

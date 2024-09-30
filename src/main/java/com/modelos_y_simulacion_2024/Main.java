@@ -19,7 +19,7 @@ public class Main {
 
         // Engine e = new Airport(200, new Tabla1(r1), new Tabla2(r2), dataManager);
 
-        Engine e = new Airport(0,100, new TestBehavior(10), new TestBehavior(11), dataManager);
+        Engine e = new Airport(0,100, new TestBehavior(10), new TestBehavior(9), dataManager);
         e.execute();
         e.generate_report();
     }
