@@ -24,7 +24,7 @@ public class EndOfService implements Planificator {
       end_of_service.setEvent(evento);
       fel.insertEvent(evento);
     } else {
-
+      
       server.setEntity(null);
       this.e.getEnditad().setServer(null);
 

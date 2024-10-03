@@ -17,9 +17,9 @@ public class Main {
         TestRandomizer2 r2 = new TestRandomizer2();
         DataManager dataManager = new DataManager();
 
-        // Engine e = new Airport(200, new Tabla1(r1), new Tabla2(r2), dataManager);
+        //Engine e = new Airport(0,150, new Tabla1(r1), new Tabla2(r2), dataManager);
 
-        Engine e = new Airport(0,100, new TestBehavior(10), new TestBehavior(9), dataManager);
+        Engine e = new Airport(0,100, new TestBehavior(10), new TestBehavior(11), dataManager);
         e.execute();
         e.generate_report();
     }

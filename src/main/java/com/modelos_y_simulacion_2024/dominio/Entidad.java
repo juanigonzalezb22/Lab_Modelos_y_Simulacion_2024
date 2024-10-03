@@ -6,8 +6,8 @@ public class Entidad {
   private final int id;
   private final float clock_arribo;
   
-  private float clock_inicio_espera;
-  private float clock_fin_espera;
+  private float clock_inicio_espera = 0;
+  private float clock_fin_espera = 0;
 
   public float getClock_arribo() {
     return this.clock_arribo;
@@ -21,7 +21,6 @@ public class Entidad {
     // supongo que entra al servicio cuando arriba, en caso
     // de que no sea asi, la dinamica del booststrapping debe encargarse
     // de volver a setear este valor; sino se rompe todo
-    this.clock_inicio_espera = clock_arribo;
   }
 
   public void setServer(Server server){
