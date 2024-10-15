@@ -1,4 +1,4 @@
-package com.modelos_y_simulacion_2024.Utils;
+package com.modelos_y_simulacion_2024.utils;
 
 import java.util.Random;
 
