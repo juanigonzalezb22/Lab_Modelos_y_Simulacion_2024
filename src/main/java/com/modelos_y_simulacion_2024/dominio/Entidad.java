@@ -4,18 +4,18 @@ public class Entidad {
 
   private Server server;
   private final int id;
-  private final float clock_arribo;
+  private final double clock_arribo;
   
-  private float clock_inicio_espera = 0;
-  private float clock_fin_espera = 0;
+  private double clock_inicio_espera = 0;
+  private double clock_fin_espera = 0;
 
-  public float getClock_arribo() {
+  public double getClock_arribo() {
     return this.clock_arribo;
   }
 
 
 
-  Entidad(int id, float clock_arribo){
+  Entidad(int id, double clock_arribo){
     this.id = id;
     this.clock_arribo = clock_arribo;
     // supongo que entra al servicio cuando arriba, en caso
@@ -35,25 +35,25 @@ public class Entidad {
     return id;
   }
 
-  public float getClockArrival(){
+  public double getClockArrival(){
     return clock_arribo;
   }
 
-  public float getClock_inicio_espera() {
+  public double getClock_inicio_espera() {
     return clock_inicio_espera;
   }
 
-  public void setClock_inicio_espera(float clock_inicio_espera) {
+  public void setClock_inicio_espera(double clock_inicio_espera) {
     this.clock_inicio_espera = clock_inicio_espera;
   }
 
-  public void setFinEspera(float clock) {
+  public void setFinEspera(double clock) {
     this.clock_fin_espera = clock;
   }
 
 
 
-  public float getFinEspera() {
+  public double getFinEspera() {
     return this.clock_fin_espera;
   }
 }

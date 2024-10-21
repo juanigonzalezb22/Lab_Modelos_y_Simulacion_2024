@@ -1,53 +1,20 @@
 package com.modelos_y_simulacion_2024.dominio;
 
 import java.util.List;
-
-import com.modelos_y_simulacion_2024.policies.Random_Policy;
+import com.modelos_y_simulacion_2024.policies.ServerSelectionPolicy;
 
 public class Arrival implements Planificator {
   
   private Event e;
   private Behavior eosBehavior;
-
-  // @Override
-  // public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
-  //   float next_clock = this.e.getClock() + this.e.getBehavior().nextTime();
-
-  //   Random_Policy random_policy = new Random_Policy();
-  //   Server server = random_policy.selectServer(servers);
-    
-  //   if (server.isBusy()) {
-      
-  //     server.enqueue(this.e.getEntidad());
-  //     this.e.getEntidad().setClock_inicio_espera(this.e.getClock());
-
-  //   } else {
-  //     server.setEntity(this.e.getEntidad());
-  //     this.e.getEntidad().setServer(server);
-      
-  //     server.finalizaTiempoOcio(this.e.getClock());
-      
-  //     EndOfService end_of_service = new EndOfService();
-  //     Event evento = new Event(this.e.getClock() + this.eosBehavior.nextTime(), this.eosBehavior, this.e.getEntidad(), end_of_service );
-  //     end_of_service.setEvent(evento);
-  //     fel.insertEvent(evento);
-  //   }
-    
-  //   Arrival a = new Arrival();
-  //   Entidad entidad = new Entidad(e.getEntidad().getId() + 1, next_clock);
-  //   Event new_event = new Event(next_clock,this.e.getBehavior(), entidad, a );
-  //   a.setEvent(new_event);
-  //   a.setEndOfServiceBehavior(eosBehavior);
-  //   fel.insertEvent(new_event);
-  // }
+  private ServerSelectionPolicy policy;
 
   @Override
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
 
-      float nextArrivalClock = this.e.getClock() + this.e.getBehavior().nextTime();
-
-      Random_Policy randomPolicy = new Random_Policy();
-      Server server = randomPolicy.selectServer(servers);
+      double nextArrivalClock = this.e.getClock() + this.e.getBehavior().nextTime();
+      
+      Server server =  this.policy.selectServer(servers);
 
       if (server.isBusy()) {
           server.enqueue(this.e.getEntidad());
@@ -73,7 +40,7 @@ public class Arrival implements Planificator {
       fel.insertEvent(endEvent);
   }
 
-  private void planificarNuevaLlegada(FEL fel, float nextArrivalClock, Event event) {
+  private void planificarNuevaLlegada(FEL fel, double nextArrivalClock, Event event) {
       Arrival arrival = new Arrival();
       Entidad entidad = new Entidad(event.getEntidad().getId() + 1, nextArrivalClock);
       Event newEvent = new Event(nextArrivalClock, event.getBehavior(), entidad, arrival);

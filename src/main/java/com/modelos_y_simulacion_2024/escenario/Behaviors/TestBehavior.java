@@ -4,14 +4,14 @@ import com.modelos_y_simulacion_2024.dominio.Behavior;
 
 public class TestBehavior implements Behavior{
 
-  private final float fixedClock;
+  private final double fixedClock;
 
-  public TestBehavior(float fixedClock) {
+  public TestBehavior(double fixedClock) {
     this.fixedClock = fixedClock;
   }
 
   @Override
-  public float nextTime() {
+  public double nextTime() {
     return this.fixedClock;
   }
   

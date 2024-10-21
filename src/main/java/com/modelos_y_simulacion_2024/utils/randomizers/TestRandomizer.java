@@ -1,4 +1,4 @@
-package com.modelos_y_simulacion_2024.utils;
+package com.modelos_y_simulacion_2024.utils.randomizers;
 
 import java.util.ArrayList;
 import java.util.List;

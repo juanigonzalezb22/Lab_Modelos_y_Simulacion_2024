@@ -10,7 +10,6 @@ public class EndOfService implements Planificator {
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
 
     Server server = this.e.getEntidad().getServer();
-    
 
     if( !server.getQueue().isEmpty() ){
       Entidad entity = server.getQueue().nextEntity();

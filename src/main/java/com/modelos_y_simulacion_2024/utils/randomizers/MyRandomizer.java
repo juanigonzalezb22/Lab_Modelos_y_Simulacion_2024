@@ -1,9 +1,10 @@
 package com.modelos_y_simulacion_2024.utils.randomizers;
-mport java.util.Random;
+
+import java.util.Random;
 
 import com.modelos_y_simulacion_2024.dominio.Randomizer;
 
-public class MyRandomizer implements Randomizer{
+public class MyRandomizer implements Randomizer {
   private Random randomizer;
 
   public MyRandomizer(){

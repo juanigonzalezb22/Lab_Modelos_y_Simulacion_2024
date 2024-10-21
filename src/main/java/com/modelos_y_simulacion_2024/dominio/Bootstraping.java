@@ -4,15 +4,15 @@ package com.modelos_y_simulacion_2024.dominio;
 import java.util.List;
 
 public abstract class Bootstraping implements Engine {
-  private float simulation_length;
-  private float currentClock;
+  private double simulation_length;
+  private double currentClock;
   private FEL fel;
   private List<Server> servers;
   private Behavior arrivalBehavior;
   private Behavior eosBehavior;
   private DataManager dataManager;
 
-  public Bootstraping(float init_time, float simulation_length, Behavior arrivalBehavior, Behavior eosBehavior, DataManager dataManager){
+  public Bootstraping(double init_time, double simulation_length, Behavior arrivalBehavior, Behavior eosBehavior, DataManager dataManager){
     this.simulation_length = simulation_length;
     this.currentClock = init_time;
     this.fel = new FEL();

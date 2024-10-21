@@ -2,11 +2,11 @@ package com.modelos_y_simulacion_2024.dominio;
 
 public class DataManager {
 
-    private float tiempoDeEsperaAcumulado = 0;
+    private double tiempoDeEsperaAcumulado = 0;
     private int cantServidos = 0;
-    private float tiempoDeTrancito = 0;
+    private double tiempoDeTrancito = 0;
 
-    public float getTiempoDeEsperaAcumulado(){
+    public double getTiempoDeEsperaAcumulado(){
         return this.tiempoDeEsperaAcumulado;
     }
 
@@ -14,7 +14,7 @@ public class DataManager {
         return this.cantServidos;
     }
 
-    public float getTiempoDeTrancito(){
+    public double getTiempoDeTrancito(){
         return this.tiempoDeTrancito;
     }
 
@@ -22,12 +22,11 @@ public class DataManager {
         this.cantServidos++;
     }
 
-    public void acumularTiempoEspera(float tiempoEsperado){
+    public void acumularTiempoEspera(double tiempoEsperado){
         this.tiempoDeEsperaAcumulado += tiempoEsperado;
     }
 
-    public void acumularTiempoDeTrancito(float tiempoTrancito){
+    public void acumularTiempoDeTrancito(double tiempoTrancito){
         this.tiempoDeTrancito += tiempoTrancito;
     }
-
 }

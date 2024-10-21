@@ -5,8 +5,8 @@ public class Server {
   private Entidad entity;
   private Queue queue;
 
-  private float ocioTotal = 0;
-  private float inicioTiempoOcio = 0;
+  private double ocioTotal = 0;
+  private double inicioTiempoOcio = 0;
 
   public Server( Queue queue, int id ){
     this.id = id;
@@ -36,11 +36,11 @@ public class Server {
 
   }
 
-  public void incioTiempoOcio(float clockInicioOcio){    
+  public void incioTiempoOcio(double clockInicioOcio){    
     this.inicioTiempoOcio = clockInicioOcio;
   }
   
-  public void finalizaTiempoOcio(float clockFinalizaOcio){
+  public void finalizaTiempoOcio(double clockFinalizaOcio){
       if(clockFinalizaOcio < this.inicioTiempoOcio)
         throw new RuntimeException("desfasage de clocks para calcular el ocio de servidor");
         
@@ -48,7 +48,7 @@ public class Server {
       this.inicioTiempoOcio = 0;
   }
 
-  public float getOcioTotal(){
+  public double getOcioTotal(){
     return this.ocioTotal;
   }
 }
