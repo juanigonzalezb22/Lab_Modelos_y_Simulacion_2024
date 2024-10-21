@@ -1,6 +1,5 @@
-package com.modelos_y_simulacion_2024.utils;
-
-import java.util.Random;
+package com.modelos_y_simulacion_2024.utils.randomizers;
+mport java.util.Random;
 
 import com.modelos_y_simulacion_2024.dominio.Randomizer;
 

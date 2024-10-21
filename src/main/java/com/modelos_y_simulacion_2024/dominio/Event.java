@@ -21,7 +21,7 @@ public final class Event {
     return behavior;
   }
 
-  public Entidad getEnditad() {
+  public Entidad getEntidad() {
     return enditad;
   }
 

@@ -9,7 +9,7 @@ public class EndOfService implements Planificator {
   @Override
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
 
-    Server server = this.e.getEnditad().getServer();
+    Server server = this.e.getEntidad().getServer();
     
 
     if( !server.getQueue().isEmpty() ){
@@ -26,14 +26,14 @@ public class EndOfService implements Planificator {
     } else {
       
       server.setEntity(null);
-      this.e.getEnditad().setServer(null);
+      this.e.getEntidad().setServer(null);
 
       server.incioTiempoOcio(this.e.getClock());
     }
 
-    dataManager.acumularTiempoEspera(this.e.getEnditad().getFinEspera() - this.e.getEnditad().getClock_inicio_espera());
+    dataManager.acumularTiempoEspera(this.e.getEntidad().getFinEspera() - this.e.getEntidad().getClock_inicio_espera());
     dataManager.incCantServidos();
-    dataManager.acumularTiempoDeTrancito(this.e.getClock() - this.e.getEnditad().getClockArrival());
+    dataManager.acumularTiempoDeTrancito(this.e.getClock() - this.e.getEntidad().getClockArrival());
   }
 
   @Override
