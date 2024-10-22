@@ -1,23 +1,38 @@
 package com.modelos_y_simulacion_2024.dominio;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import com.modelos_y_simulacion_2024.policies.ServerSelectionPolicy;
+import java.util.Set;
+
+import com.modelos_y_simulacion_2024.policies.SelectionPolicy;
 
 public class Arrival implements Planificator {
   
   private Event e;
   private Behavior eosBehavior;
-  private ServerSelectionPolicy policy;
+  private SelectionPolicy<Server> serverSelectionPolicy;
+  private SelectionPolicy<Queue> queueSelectionPolicy;
 
   @Override
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
 
       double nextArrivalClock = this.e.getClock() + this.e.getBehavior().nextTime();
       
-      Server server =  this.policy.selectServer(servers);
+      Server server = this.serverSelectionPolicy.select(servers);
 
-      if (server.isBusy()) {
-          server.enqueue(this.e.getEntidad());
+      if (server == null) { // todos ocupados? si... entonces elegir la cola a donde va a esperar
+          
+          //server.enqueue(this.e.getEntidad());
+          Set<Queue> queueAux = new HashSet<>();
+          for (Server s : servers)
+            queueAux.add(s.getQueue());
+          }
+          
+          Queue q = this.queueSelectionPolicy.select(queueAux);
+          q.enqueue(this.e.getEntidad());
+          
           this.e.getEntidad().setClock_inicio_espera(this.e.getClock());
       } else {
           server.setEntity(this.e.getEntidad());
