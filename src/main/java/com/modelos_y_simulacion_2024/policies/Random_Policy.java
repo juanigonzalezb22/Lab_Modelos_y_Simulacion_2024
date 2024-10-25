@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.modelos_y_simulacion_2024.dominio.Server;
 
-public class Random_Policy implements SelectionPolicy<Server> {
+public class Random_Policy implements SelectionPolicy<Server,Server> {
 
   @Override
   public Server select(Collection<Server> servers) {

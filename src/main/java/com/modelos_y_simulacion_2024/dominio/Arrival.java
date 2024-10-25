@@ -1,7 +1,5 @@
 package com.modelos_y_simulacion_2024.dominio;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,8 +10,14 @@ public class Arrival implements Planificator {
   
   private Event e;
   private Behavior eosBehavior;
-  private SelectionPolicy<Server> serverSelectionPolicy;
-  private SelectionPolicy<Queue> queueSelectionPolicy;
+  private SelectionPolicy<Server, Server> serverSelectionPolicy;
+  private SelectionPolicy<Queue, Queue> enqueueSelectionPolicy;
+
+  public Arrival(SelectionPolicy<Server,Server> serverSelectionPolicy, SelectionPolicy<Queue,Queue> enqueueSelectionPolicy) {
+    this.serverSelectionPolicy = serverSelectionPolicy;
+    this.enqueueSelectionPolicy = enqueueSelectionPolicy;
+  }
+
 
   @Override
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
@@ -23,14 +27,12 @@ public class Arrival implements Planificator {
       Server server = this.serverSelectionPolicy.select(servers);
 
       if (server == null) { // todos ocupados? si... entonces elegir la cola a donde va a esperar
-          
           //server.enqueue(this.e.getEntidad());
           Set<Queue> queueAux = new HashSet<>();
           for (Server s : servers)
             queueAux.add(s.getQueue());
-          }
           
-          Queue q = this.queueSelectionPolicy.select(queueAux);
+          Queue q = this.enqueueSelectionPolicy.select(queueAux);
           q.enqueue(this.e.getEntidad());
           
           this.e.getEntidad().setClock_inicio_espera(this.e.getClock());
@@ -38,9 +40,10 @@ public class Arrival implements Planificator {
           server.setEntity(this.e.getEntidad());
           this.e.getEntidad().setServer(server);
           server.finalizaTiempoOcio(this.e.getClock());
-          planificarFinDeServicio(fel, server, this.e);
+          this.planificarFinDeServicio(fel, server, this.e);
       }
-      planificarNuevaLlegada(fel, nextArrivalClock, this.e);
+
+      this.planificarNuevaLlegada(fel, nextArrivalClock, this.e);
   }
 
   private void planificarFinDeServicio(FEL fel, Server server, Event event) {
