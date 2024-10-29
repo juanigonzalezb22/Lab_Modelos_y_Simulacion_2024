@@ -1,9 +1,44 @@
 package com.modelos_y_simulacion_2024.utils.distribuciones;
 
-import java.util.List;
+import java.util.Random;
 
-public class Normal{
+public class Normal {
   
+  private Random random = new Random(System.currentTimeMillis());
+
+  private double mediaY;
+  private double varianzaY;
+
+  //porque voy a usar una uniforme entre 0 y 1
+  private final double varianzaX = 1d/12d;
+  private final double mediaX = 0.5d;
+  
+  private final double mediaZ;
+  private final double varianzaZ;
+  private final double desviacionZ;
+
+  private int n;
+
+  public Normal(double mediaY, double varianzaY){
+    this.n = 48;
+    this.mediaY = mediaY;
+    this.varianzaY = varianzaY;
+    
+    this.mediaZ = this.n*this.mediaX;
+    this.varianzaZ = this.n*this.varianzaX;
+    this.desviacionZ = Math.sqrt(this.varianzaZ);
+  }
+
+  public Normal(double mediaY, double varianzaY, int n){
+    this.n = n;
+    this.mediaY = mediaY;
+    this.varianzaY = varianzaY;
+    
+    this.mediaZ = this.n*this.mediaX;
+    this.varianzaZ = this.n*this.varianzaX;
+    this.desviacionZ = Math.sqrt(this.varianzaZ);
+  }
+
   public double probabilidad(double x, double media, double varianza){
     
     double desviacion_estandar = Math.sqrt(varianza);
@@ -21,22 +56,18 @@ public class Normal{
     return 0.0;
   }
 
-  public double generarVariableNormal( List<Double> varIdependientes, double mediaX, double varianzaX, double mediaY, double varianzaY ) {
+  public double generarVariableNormal() {
+    
     //PASO 1
     double normalAproximada = 0;
-    for (int i=0; i < varIdependientes.size(); i++) {
-      normalAproximada = normalAproximada + varIdependientes.get(i);
+    for (int i=0; i < this.n; i++) {
+      normalAproximada += this.random.nextDouble();
     }
-    double mediaZ = mediaX * varIdependientes.size();
-    double varianzaZ = varianzaX * varIdependientes.size();
-
     //PASO 2
-    double normalEstandar = ( normalAproximada - mediaZ ) / Math.sqrt( varianzaZ );
-
+    double normalEstandar = ( normalAproximada - this.mediaZ ) / this.desviacionZ;
     //PASO 3
     double Y = normalEstandar * Math.sqrt( varianzaY ) + mediaY;
 
     return Y;
   }
-
 }

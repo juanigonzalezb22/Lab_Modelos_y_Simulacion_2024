@@ -25,7 +25,6 @@ public abstract class Bootstraping implements Engine {
     a.setEvent(e);
     a.setEndOfServiceBehavior(eosBehavior);
     fel.insertEvent(e);
-    System.out.println("ESTADO INICIAL");
     System.out.println(this.fel.toString());
   }
 

@@ -85,5 +85,4 @@ public class Arrival implements Planificator {
   public Event getEvent() {
     return e;
   }
-
 }
