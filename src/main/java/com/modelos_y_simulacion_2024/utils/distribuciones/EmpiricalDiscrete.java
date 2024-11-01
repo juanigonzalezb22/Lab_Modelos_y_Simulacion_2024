@@ -15,7 +15,7 @@ public class EmpiricalDiscrete implements Distribution {
         this.pairs = pairs;
     }
 
-    public EmpiricalDiscrete(Pair<Double,Double>... pairs){        
+    public EmpiricalDiscrete(@SuppressWarnings("unchecked") Pair<Double,Double>... pairs){        
         this.pairs = new ArrayList<>();
         for (Pair<Double,Double> p : pairs)
             this.pairs.add(p);

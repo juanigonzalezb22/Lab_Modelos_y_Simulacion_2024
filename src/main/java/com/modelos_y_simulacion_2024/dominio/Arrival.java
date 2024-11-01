@@ -41,8 +41,10 @@ public class Arrival implements Planificator {
           
           this.e.getEntidad().setClock_inicio_espera(this.e.getClock());
       } else {
+        
           server.setEntity(this.e.getEntidad());
           this.e.getEntidad().setServer(server);
+
           server.finalizaTiempoOcio(this.e.getClock());
           this.planificarFinDeServicio(fel, server, this.e);
       }

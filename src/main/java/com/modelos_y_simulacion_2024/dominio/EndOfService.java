@@ -23,31 +23,38 @@ public class EndOfService implements Planificator {
   @Override
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
 
-    // Server server = this.e.getEntidad().getServer();
+    Server server = this.e.getEntidad().getServer();
+    server.setEntity(null);
+    this.e.getEntidad().setServer(null);
+    
+
     Set<Queue> queueAux = new HashSet<>();
     for (Server s : servers)
       queueAux.add(s.getQueue());
+      
     // de todas las colas que veo, hay alguien esperando? si hay varios? cual pasa
     // a ser atendido? y donde?
     if (this.hayAlguienEsperando(queueAux)) {
       
       Entidad entity = this.dequeueSelectionPolicy.select(queueAux);
       
-      Server server = this.serverSelectionPolicy.select( servers );
+      server = this.serverSelectionPolicy.select( servers );
 
+      server.setEntity(entity);
       entity.setServer(server);
-
+      
       entity.setFinEspera(this.e.getClock());
 
       EndOfService end_of_service = new EndOfService( this.serverSelectionPolicy, this.dequeueSelectionPolicy );
-      Event evento = new Event(e.getClock() + e.getBehavior().nextTime(), e.getBehavior(), entity, end_of_service);
+      Event evento = new Event(this.e.getClock() + this.e.getBehavior().nextTime(), this.e.getBehavior(), entity, end_of_service);
       end_of_service.setEvent(evento);
       fel.insertEvent(evento);
+
     } else {
 
-      Server server = this.e.getEntidad().getServer();
-      server.setEntity(null);
-      this.e.getEntidad().setServer(null);
+      // Server server = this.e.getEntidad().getServer();
+      // server.setEntity(null);
+      // this.e.getEntidad().setServer(null);
       server.incioTiempoOcio(this.e.getClock());
 
     }

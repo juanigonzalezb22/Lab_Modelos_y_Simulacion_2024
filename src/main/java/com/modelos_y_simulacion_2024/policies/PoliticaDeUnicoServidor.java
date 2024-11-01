@@ -10,7 +10,8 @@ public class PoliticaDeUnicoServidor implements SelectionPolicy<Server, Server>{
     public Server select(Collection<Server> options) {
         Server serv = null;
         for (Server s : options) {
-            serv = s;
+            if(!s.isBusy())
+                serv = s;
         }
         return serv;
     }
