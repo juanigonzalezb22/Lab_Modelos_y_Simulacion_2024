@@ -12,8 +12,13 @@ public class EndOfService implements Planificator {
 
   private Event e;
 
-  private SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy;
-  private SelectionPolicy<Server, Server> serverSelectionPolicy;
+  private final SelectionPolicy<Server, Server> serverSelectionPolicy;
+  private final SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy;
+
+  public EndOfService(SelectionPolicy<Server, Server> serverSelectionPolicy, SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy){
+    this.dequeueSelectionPolicy = dequeueSelectionPolicy;
+    this.serverSelectionPolicy = serverSelectionPolicy;  
+  }
 
   @Override
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
@@ -34,7 +39,7 @@ public class EndOfService implements Planificator {
 
       entity.setFinEspera(this.e.getClock());
 
-      EndOfService end_of_service = new EndOfService();
+      EndOfService end_of_service = new EndOfService( this.serverSelectionPolicy, this.dequeueSelectionPolicy );
       Event evento = new Event(e.getClock() + e.getBehavior().nextTime(), e.getBehavior(), entity, end_of_service);
       end_of_service.setEvent(evento);
       fel.insertEvent(evento);

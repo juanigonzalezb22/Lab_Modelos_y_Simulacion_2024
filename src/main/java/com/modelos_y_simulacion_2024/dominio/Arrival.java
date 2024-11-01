@@ -10,12 +10,16 @@ public class Arrival implements Planificator {
   
   private Event e;
   private Behavior eosBehavior;
-  private SelectionPolicy<Server, Server> serverSelectionPolicy;
-  private SelectionPolicy<Queue, Queue> enqueueSelectionPolicy;
+  private final SelectionPolicy<Server, Server> serverSelectionPolicy;
+  private final SelectionPolicy<Queue, Queue> enqueueSelectionPolicy;
+  private final SelectionPolicy<Server, Server> eosServerSelectionPolicy;
+  private final SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy;
 
-  public Arrival(SelectionPolicy<Server,Server> serverSelectionPolicy, SelectionPolicy<Queue,Queue> enqueueSelectionPolicy) {
+  public Arrival(SelectionPolicy<Server,Server> serverSelectionPolicy, SelectionPolicy<Queue,Queue> enqueueSelectionPolicy, SelectionPolicy<Server, Server> eosServerSelectionPolicy, SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy) {
     this.serverSelectionPolicy = serverSelectionPolicy;
     this.enqueueSelectionPolicy = enqueueSelectionPolicy;
+    this.dequeueSelectionPolicy = dequeueSelectionPolicy;
+    this.eosServerSelectionPolicy = eosServerSelectionPolicy;
   }
 
 
@@ -47,7 +51,7 @@ public class Arrival implements Planificator {
   }
 
   private void planificarFinDeServicio(FEL fel, Server server, Event event) {
-      EndOfService endOfService = new EndOfService();
+      EndOfService endOfService = new EndOfService( this.eosServerSelectionPolicy, this.dequeueSelectionPolicy );
       Event endEvent = new Event(
           event.getClock() + this.eosBehavior.nextTime(),
           this.eosBehavior,
@@ -59,7 +63,7 @@ public class Arrival implements Planificator {
   }
 
   private void planificarNuevaLlegada(FEL fel, double nextArrivalClock, Event event) {
-      Arrival arrival = new Arrival();
+      Arrival arrival = new Arrival(this.serverSelectionPolicy, this.enqueueSelectionPolicy, this.eosServerSelectionPolicy, this.dequeueSelectionPolicy);
       Entidad entidad = new Entidad(event.getEntidad().getId() + 1, nextArrivalClock);
       Event newEvent = new Event(nextArrivalClock, event.getBehavior(), entidad, arrival);
       arrival.setEvent(newEvent);

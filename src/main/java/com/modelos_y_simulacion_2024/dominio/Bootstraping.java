@@ -3,16 +3,35 @@ package com.modelos_y_simulacion_2024.dominio;
 
 import java.util.List;
 
-public abstract class Bootstraping implements Engine {
-  private double simulation_length;
-  private double currentClock;
-  private FEL fel;
-  private List<Server> servers;
-  private Behavior arrivalBehavior;
-  private Behavior eosBehavior;
-  private DataManager dataManager;
+import com.modelos_y_simulacion_2024.policies.SelectionPolicy;
 
-  public Bootstraping(double init_time, double simulation_length, Behavior arrivalBehavior, Behavior eosBehavior, DataManager dataManager){
+public abstract class Bootstraping implements Engine {
+  private final double simulation_length;
+  private final FEL fel;
+
+  private final Behavior arrivalBehavior;
+  private final Behavior eosBehavior;
+  private final DataManager dataManager;
+  
+  private final SelectionPolicy<Server,Server> arrivalServerSelectionPolicy;
+  private final SelectionPolicy<Queue,Queue> enqueueSelectionPolicy;
+  private final SelectionPolicy<Server, Server> eosServerSelectionPolicy;
+  private final SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy;
+
+  private List<Server> servers;
+  private double currentClock;
+  
+  
+  public Bootstraping(double init_time, 
+                      double simulation_length, 
+                      Behavior arrivalBehavior, 
+                      Behavior eosBehavior, 
+                      SelectionPolicy<Server,Server> arrivalServerSelectionPolicy, 
+                      SelectionPolicy<Queue,Queue> enqueueSelectionPolicy,
+                      SelectionPolicy<Server, Server> eosServerSelectionPolicy,
+                      SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy,
+                      DataManager dataManager
+                      ){
     this.simulation_length = simulation_length;
     this.currentClock = init_time;
     this.fel = new FEL();
@@ -20,10 +39,15 @@ public abstract class Bootstraping implements Engine {
     this.eosBehavior = eosBehavior;
     this.dataManager = dataManager;
 
-    Arrival a = new Arrival();
-    Event e = new Event(init_time, arrivalBehavior, new Entidad(0, init_time),a);
+    this.arrivalServerSelectionPolicy = arrivalServerSelectionPolicy;
+    this.enqueueSelectionPolicy = enqueueSelectionPolicy;
+    this.eosServerSelectionPolicy = eosServerSelectionPolicy;
+    this.dequeueSelectionPolicy = dequeueSelectionPolicy;
+  
+    Arrival a = new Arrival(this.arrivalServerSelectionPolicy, this.enqueueSelectionPolicy, this.eosServerSelectionPolicy, this.dequeueSelectionPolicy);
+    Event e = new Event(init_time, this.arrivalBehavior, new Entidad(0, init_time),a);
     a.setEvent(e);
-    a.setEndOfServiceBehavior(eosBehavior);
+    a.setEndOfServiceBehavior(this.eosBehavior);
     fel.insertEvent(e);
     System.out.println(this.fel.toString());
   }
@@ -57,13 +81,4 @@ public abstract class Bootstraping implements Engine {
   public void setServers(List<Server> servers){
     this.servers = servers;
   }
-
-  public void setArrivalBehavior(Behavior arrivalBehavior){
-    this.arrivalBehavior = arrivalBehavior;
-  }
-
-  public void seteosBehavior(Behavior eosBehavior){
-    this.eosBehavior = eosBehavior;
-  }
-
 }
