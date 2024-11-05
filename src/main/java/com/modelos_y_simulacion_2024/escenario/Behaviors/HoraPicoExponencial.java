@@ -23,12 +23,13 @@ public class HoraPicoExponencial implements Behavior {
     @Override
     public double nextTime(double clock) {
         
-        if( clock ){
-            return this.exponential_hora_pico.sample(ThreadLocalRandom.current().nextDouble());
-        }
-        else{
-            return this.exponential.sample(ThreadLocalRandom.current().nextDouble());
-        }
+        // if( clock ){
+        //     return this.exponential_hora_pico.sample(ThreadLocalRandom.current().nextDouble());
+        // }
+        // else{
+        //     return this.exponential.sample(ThreadLocalRandom.current().nextDouble());
+        // }
+        return clock;
     }
 
 }

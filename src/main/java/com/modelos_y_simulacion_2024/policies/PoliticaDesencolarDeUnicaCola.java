@@ -1,20 +1,21 @@
 package com.modelos_y_simulacion_2024.policies;
 
 import java.util.Collection;
-
+import java.util.List;
 
 import com.modelos_y_simulacion_2024.dominio.Entidad;
 import com.modelos_y_simulacion_2024.dominio.Queue;
+import com.modelos_y_simulacion_2024.dominio.Server;
 
-public class PoliticaDesencolarDeUnicaCola implements SelectionPolicy<Queue, Entidad> {
+public class PoliticaDesencolarDeUnicaCola implements SelectionPolicy<Server, Entidad> {
     //Modelar bien que informacion es necesario para poder implementar deque policies
     @Override
-    public Entidad select(Collection<Queue> options) {
-        Queue queue = null;
-        for (Queue q : options) {
-            queue = q;
+    public Entidad select(int id, List<Server> options) {
+        Entidad entidad = null;
+        for (Server s : options) {
+            entidad = s.getQueue().nextEntity();
         }
-        return queue.nextEntity();
+        return entidad;
     }
     
 

@@ -37,7 +37,7 @@ public class EndOfService implements Planificator {
       entity.setFinEspera(this.e.getClock());
 
       EndOfService end_of_service = new EndOfService( this.serverSelectionPolicy, this.dequeueSelectionPolicy );
-      Event evento = new Event(this.e.getClock() + this.e.getBehavior().nextTime(), this.e.getBehavior(), entity, end_of_service);
+      Event evento = new Event(this.e.getClock() + this.e.getBehavior().nextTime(this.e.getClock()), this.e.getBehavior(), entity, end_of_service);
       end_of_service.setEvent(evento);
       fel.insertEvent(evento);
 

@@ -11,7 +11,7 @@ public class TestBehavior implements Behavior{
   }
 
   @Override
-  public double nextTime() {
+  public double nextTime(double clock) {
     return this.fixedClock;
   }
   

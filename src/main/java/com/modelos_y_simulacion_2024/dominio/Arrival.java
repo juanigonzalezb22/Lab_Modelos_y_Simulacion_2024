@@ -27,7 +27,7 @@ public class Arrival implements Planificator {
   @Override
   public void planificate(List<Server> servers, FEL fel, DataManager dataManager) {
 
-      double nextArrivalClock = this.e.getClock() + this.e.getBehavior().nextTime();
+      double nextArrivalClock = this.e.getClock() + this.e.getBehavior().nextTime(this.e.getClock());
       
       Server server = this.serverSelectionPolicy.select(0,servers);
 
@@ -57,7 +57,7 @@ public class Arrival implements Planificator {
   private void planificarFinDeServicio(FEL fel, Server server, Event event) {
       EndOfService endOfService = new EndOfService( this.eosServerSelectionPolicy, this.dequeueSelectionPolicy );
       Event endEvent = new Event(
-          event.getClock() + this.eosBehavior.nextTime(),
+          event.getClock() + this.eosBehavior.nextTime(event.getClock()),
           this.eosBehavior,
           event.getEntidad(),
           endOfService

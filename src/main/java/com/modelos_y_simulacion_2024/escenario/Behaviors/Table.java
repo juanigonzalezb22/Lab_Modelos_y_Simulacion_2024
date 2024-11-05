@@ -27,7 +27,7 @@ public class Table implements Behavior {
     }
 
     @Override
-    public double nextTime() {
+    public double nextTime(double clock) {
         return this.ed.sample(ThreadLocalRandom.current().nextDouble());
     }
 }
