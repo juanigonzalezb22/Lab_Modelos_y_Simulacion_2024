@@ -60,25 +60,37 @@ public abstract class Bootstraping implements Engine {
     
     while (this.currentClock <= this.simulation_length) {
       e.getPlanificator().planificate(this.servers, this.fel, this.dataManager);
-      System.out.println(this.fel.toString());
+      //System.out.println(this.fel.toString());
 
       e = fel.imminent();
       this.currentClock = e.getClock();
     }
     
+    this.dataManager.setDatosDataManagerPadre();
+
   }
 
-  public void generate_report(){
-    System.out.println("Tiempo de espera acumulado: " + this.dataManager.getTiempoDeEsperaAcumulado());
-    System.out.println("Cantidad de entidades servidas: " + this.dataManager.getCantServidos());
-    System.out.println("Tiempo de trancito acumulado: " + this.dataManager.getTiempoDeTrancito());
+  // public void generate_report(){
+  //   System.out.println("Tiempo de espera acumulado: " + this.dataManager.getTiempoDeEsperaAcumulado());
+  //   System.out.println("Cantidad de entidades servidas: " + this.dataManager.getCantServidos());
+  //   System.out.println("Tiempo de trancito acumulado: " + this.dataManager.getTiempoDeTrancito());
     
-    for(Server s : this.servers){
-      System.out.println("Tiempo de ocio para el server "+s.getId()+" : "+ s.getOcioTotal());
-    }
+  //   for(Server s : this.servers){
+  //     System.out.println("Tiempo de ocio para el server "+s.getId()+" : "+ s.getOcioTotal());
+  //   }
+  // }
+
+  public void generate_report(){
+    double mediaEspera = this.dataManager.getTiempoDeEsperaAcumulado() / this.dataManager.getCantServidos();
+    //System.out.println("Media de Espera: "+mediaEspera);
   }
 
   public void setServers(List<Server> servers){
     this.servers = servers;
   }
+
+  private void mostrarPorPantalla(){
+
+  }
+
 }
