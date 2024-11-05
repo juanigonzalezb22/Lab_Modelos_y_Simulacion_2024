@@ -16,7 +16,7 @@ public abstract class Bootstraping implements Engine {
   private final SelectionPolicy<Server,Server> arrivalServerSelectionPolicy;
   private final SelectionPolicy<Queue,Queue> enqueueSelectionPolicy;
   private final SelectionPolicy<Server, Server> eosServerSelectionPolicy;
-  private final SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy;
+  private final SelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
 
   private List<Server> servers;
   private double currentClock;
@@ -29,7 +29,7 @@ public abstract class Bootstraping implements Engine {
                       SelectionPolicy<Server,Server> arrivalServerSelectionPolicy, 
                       SelectionPolicy<Queue,Queue> enqueueSelectionPolicy,
                       SelectionPolicy<Server, Server> eosServerSelectionPolicy,
-                      SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy,
+                      SelectionPolicy<Server, Entidad> dequeueSelectionPolicy,
                       DataManager dataManager
                       ){
     this.simulation_length = simulation_length;

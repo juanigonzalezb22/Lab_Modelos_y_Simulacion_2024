@@ -1,0 +1,6 @@
+- cuestiones de diseño:
+    - el id que pasamos por parametro para la interfaz funcional selection policy, no deja un temita con el harcode del id.
+
+    - hacer otra interfaz para dequeSelection policy que esta sola tenga el id;
+
+    - la pregunta en el arrival del boostrapping if (server == null) obliga al usuario de la libreria a saber que debe devolver null para especificar ciertas situaciones (mas desacoplado , se puede? es decir, desentender al usuario de esto?) (re preguntar isBusy en el mismo lugar lo soluciona)

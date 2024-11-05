@@ -10,7 +10,7 @@ import com.modelos_y_simulacion_2024.dominio.Server;
 public class Random_Policy implements SelectionPolicy<Server,Server> {
 
   @Override
-  public Server select(Collection<Server> servers) {
+  public Server select(int id, List<Server> servers) {
     // Filtrar servidores no ocupados usando streams
     List<Server> emptyServers = servers.stream()
                                         .filter(server -> !server.isBusy())

@@ -1,8 +1,6 @@
 package com.modelos_y_simulacion_2024.policies;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import com.modelos_y_simulacion_2024.dominio.Server;
@@ -10,7 +8,7 @@ import com.modelos_y_simulacion_2024.dominio.Server;
 public class PoliticaSegundaEtapaServer implements SelectionPolicy<Server, Server>{
 
     @Override
-    public Server select(Collection<Server> options) {
+    public Server select(int id, List<Server> options) {
       
       Server serv = null;
 
@@ -19,9 +17,11 @@ public class PoliticaSegundaEtapaServer implements SelectionPolicy<Server, Serve
                                         .collect(Collectors.toList());
 
       if (!emptyServers.isEmpty()) {
-        serv = emptyServers.get(ThreadLocalRandom.current().nextInt(emptyServers.size())); // TOMA CUALQUIERA DE LOS LIBRES
+ 
+        serv = emptyServers.get(0);
+        
       }
-      
+
       return serv;
     }
     

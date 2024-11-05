@@ -4,6 +4,7 @@ public class Server {
   private int id;
   private Entidad entity;
   private Queue queue;
+  
 
   private double ocioTotal = 0;
   private double inicioTiempoOcio = 0;

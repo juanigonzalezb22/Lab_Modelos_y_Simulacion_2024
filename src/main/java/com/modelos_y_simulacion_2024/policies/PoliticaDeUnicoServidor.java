@@ -1,19 +1,17 @@
 package com.modelos_y_simulacion_2024.policies;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.modelos_y_simulacion_2024.dominio.Server;
 
 public class PoliticaDeUnicoServidor implements SelectionPolicy<Server, Server>{
 
     @Override
-    public Server select(Collection<Server> options) {
-        Server serv = null;
-        for (Server s : options) {
-            if(!s.isBusy())
-                serv = s;
+    public Server select(int id, List<Server> options) {
+        if ( !options.get(0).isBusy() ) {
+            return options.get(0);
         }
-        return serv;
+        return null;
     }
     
 }

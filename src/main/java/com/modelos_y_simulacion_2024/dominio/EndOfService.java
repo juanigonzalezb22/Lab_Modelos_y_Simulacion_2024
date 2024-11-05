@@ -1,10 +1,6 @@
 package com.modelos_y_simulacion_2024.dominio;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 
 import com.modelos_y_simulacion_2024.policies.SelectionPolicy;
 
@@ -13,9 +9,9 @@ public class EndOfService implements Planificator {
   private Event e;
 
   private final SelectionPolicy<Server, Server> serverSelectionPolicy;
-  private final SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy;
+  private final SelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
 
-  public EndOfService(SelectionPolicy<Server, Server> serverSelectionPolicy, SelectionPolicy<Queue, Entidad> dequeueSelectionPolicy){
+  public EndOfService(SelectionPolicy<Server, Server> serverSelectionPolicy, SelectionPolicy<Server, Entidad> dequeueSelectionPolicy){
     this.dequeueSelectionPolicy = dequeueSelectionPolicy;
     this.serverSelectionPolicy = serverSelectionPolicy;  
   }
@@ -26,19 +22,14 @@ public class EndOfService implements Planificator {
     Server server = this.e.getEntidad().getServer();
     server.setEntity(null);
     this.e.getEntidad().setServer(null);
-    
-
-    Set<Queue> queueAux = new HashSet<>();
-    for (Server s : servers)
-      queueAux.add(s.getQueue());
       
     // de todas las colas que veo, hay alguien esperando? si hay varios? cual pasa
     // a ser atendido? y donde?
-    if (this.hayAlguienEsperando(queueAux)) {
+    if (this.hayAlguienEsperando(servers)) {
       
-      Entidad entity = this.dequeueSelectionPolicy.select(queueAux);
+      Entidad entity = this.dequeueSelectionPolicy.select(server.getId(),servers);
       
-      server = this.serverSelectionPolicy.select( servers );
+      server = this.serverSelectionPolicy.select(server.getId(),servers);
 
       server.setEntity(entity);
       entity.setServer(server);
@@ -64,9 +55,9 @@ public class EndOfService implements Planificator {
     dataManager.acumularTiempoDeTrancito(this.e.getClock() - this.e.getEntidad().getClockArrival());
   }
 
-  private boolean hayAlguienEsperando(Collection<Queue> queues) {
-    for (Queue queue : queues) {
-      if (!queue.isEmpty())
+  private boolean hayAlguienEsperando(List<Server> servers) {
+    for (Server s : servers) {
+      if (!s.getQueue().isEmpty())
         return true;
     }
     return false;
