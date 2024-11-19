@@ -23,13 +23,15 @@ public class HoraPicoExponencial implements Behavior {
     @Override
     public double nextTime(double clock) {
         
-        // if( clock ){
-        //     return this.exponential_hora_pico.sample(ThreadLocalRandom.current().nextDouble());
-        // }
-        // else{
-        //     return this.exponential.sample(ThreadLocalRandom.current().nextDouble());
-        // }
-        return clock;
-    }
+        //tesatear que anda bien... printear si hace bien el modulo
+        
+        double hora = clock % 1440;
 
+        if( (540 <= hora && hora <= 780) || (1200 <= hora && hora <= 1380) ){
+            return this.exponential_hora_pico.sample(ThreadLocalRandom.current().nextDouble());
+        }
+        else{
+            return this.exponential.sample(ThreadLocalRandom.current().nextDouble());
+        }
+    }
 }
