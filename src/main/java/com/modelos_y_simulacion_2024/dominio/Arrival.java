@@ -1,11 +1,10 @@
 package com.modelos_y_simulacion_2024.dominio;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.modelos_y_simulacion_2024.policies.SelectionPolicy;
+import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy;
 
 public class Arrival implements Planificator {
   
@@ -13,10 +12,15 @@ public class Arrival implements Planificator {
   private Behavior eosBehavior;
   private final SelectionPolicy<Server, Server> serverSelectionPolicy;
   private final SelectionPolicy<Queue, Queue> enqueueSelectionPolicy;
-  private final SelectionPolicy<Server, Server> eosServerSelectionPolicy;
-  private final SelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
+  private final dequeSelectionPolicy<Server, Server> eosServerSelectionPolicy;
+  private final dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
 
-  public Arrival(SelectionPolicy<Server,Server> serverSelectionPolicy, SelectionPolicy<Queue,Queue> enqueueSelectionPolicy, SelectionPolicy<Server, Server> eosServerSelectionPolicy, SelectionPolicy<Server, Entidad> dequeueSelectionPolicy) {
+  public Arrival(
+                SelectionPolicy<Server,Server> serverSelectionPolicy,
+                SelectionPolicy<Queue,Queue> enqueueSelectionPolicy,
+                dequeSelectionPolicy<Server, Server> eosServerSelectionPolicy,
+                dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy
+    ) {
     this.serverSelectionPolicy = serverSelectionPolicy;
     this.enqueueSelectionPolicy = enqueueSelectionPolicy;
     this.dequeueSelectionPolicy = dequeueSelectionPolicy;
@@ -29,7 +33,7 @@ public class Arrival implements Planificator {
 
       double nextArrivalClock = this.e.getClock() + this.e.getBehavior().nextTime(this.e.getClock());
       
-      Server server = this.serverSelectionPolicy.select(0,servers);
+      Server server = this.serverSelectionPolicy.select(servers);
 
       if (server == null) { // todos ocupados? si... entonces elegir la cola a donde va a esperar
           //server.enqueue(this.e.getEntidad());
@@ -38,7 +42,7 @@ public class Arrival implements Planificator {
             queueAux.add(servers.get(i).getQueue());
             
           
-          Queue q = this.enqueueSelectionPolicy.select(0,queueAux);
+          Queue q = this.enqueueSelectionPolicy.select(queueAux);
           q.enqueue(this.e.getEntidad());
           
           this.e.getEntidad().setClock_inicio_espera(this.e.getClock());
@@ -48,6 +52,7 @@ public class Arrival implements Planificator {
           this.e.getEntidad().setServer(server);
 
           server.finalizaTiempoOcio(this.e.getClock());
+          dataManager.acumularTiempoDeOcio( server.getOcioActual(this.e.getClock()) );  //AGREGO EL OCIO AL DATA MANAGER
           this.planificarFinDeServicio(fel, server, this.e);
       }
 

@@ -34,4 +34,5 @@ public class HoraPicoExponencial implements Behavior {
             return this.exponential.sample(ThreadLocalRandom.current().nextDouble());
         }
     }
+    
 }

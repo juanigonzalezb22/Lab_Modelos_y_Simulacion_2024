@@ -10,6 +10,6 @@ public interface SelectionPolicy<T1, T2> {
    * @param options 
    * @return 
    */
-  T2 select(int t1_id, List<T1> options );
+  T2 select( List<T1> options );
 
 }

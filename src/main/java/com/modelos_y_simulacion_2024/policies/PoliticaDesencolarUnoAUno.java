@@ -5,7 +5,7 @@ import java.util.List;
 import com.modelos_y_simulacion_2024.dominio.Entidad;
 import com.modelos_y_simulacion_2024.dominio.Server;
 
-public class PoliticaDesencolarUnoAUno implements SelectionPolicy<Server, Entidad>{
+public class PoliticaDesencolarUnoAUno implements dequeSelectionPolicy<Server, Entidad>{
 
     @Override
     public Entidad select(int id, List<Server> options) {

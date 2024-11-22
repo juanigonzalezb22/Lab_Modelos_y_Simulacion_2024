@@ -1,6 +1,5 @@
 package com.modelos_y_simulacion_2024.policies;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,7 +9,7 @@ import com.modelos_y_simulacion_2024.dominio.Server;
 public class Random_Policy implements SelectionPolicy<Server,Server> {
 
   @Override
-  public Server select(int id, List<Server> servers) {
+  public Server select( List<Server> servers) {
     // Filtrar servidores no ocupados usando streams
     List<Server> emptyServers = servers.stream()
                                         .filter(server -> !server.isBusy())

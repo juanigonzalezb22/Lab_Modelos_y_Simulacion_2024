@@ -8,7 +8,7 @@ import com.modelos_y_simulacion_2024.dominio.Server;
 public class PoliticaSegundaEtapaServer implements SelectionPolicy<Server, Server>{
 
     @Override
-    public Server select(int id, List<Server> options) {
+    public Server select( List<Server> options) {
       
       Server serv = null;
 

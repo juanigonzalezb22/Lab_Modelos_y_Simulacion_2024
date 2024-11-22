@@ -4,8 +4,8 @@ import java.util.List;
 import com.modelos_y_simulacion_2024.dominio.Behavior;
 import com.modelos_y_simulacion_2024.dominio.Bootstraping;
 import com.modelos_y_simulacion_2024.dominio.Server;
-import com.modelos_y_simulacion_2024.policies.PoliticaDequeueDeUnicaCola;
 import com.modelos_y_simulacion_2024.policies.SelectionPolicy;
+import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy;
 import com.modelos_y_simulacion_2024.dominio.DataManager;
 import com.modelos_y_simulacion_2024.dominio.Entidad;
 import com.modelos_y_simulacion_2024.dominio.Queue;
@@ -20,8 +20,8 @@ public final class AirportOneToOne extends Bootstraping {
                   Behavior eosBehavior,
                   SelectionPolicy<Server,Server> arrivalServerSelectionPolicy,
                   SelectionPolicy<Queue, Queue> enqueueSelectionPolicy,
-                  SelectionPolicy<Server, Server> eosServerSelectionPolicy,
-                  SelectionPolicy<Server, Entidad> dequeueSelectionPolicy,
+                  dequeSelectionPolicy<Server, Server> eosServerSelectionPolicy,
+                  dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy,
                   DataManager dataManager
                   ){
     super(init_time,simulation_length,arrivalBehavior,eosBehavior, arrivalServerSelectionPolicy, enqueueSelectionPolicy, eosServerSelectionPolicy, dequeueSelectionPolicy, dataManager);

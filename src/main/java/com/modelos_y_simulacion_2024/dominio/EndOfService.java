@@ -2,16 +2,16 @@ package com.modelos_y_simulacion_2024.dominio;
 
 import java.util.List;
 
-import com.modelos_y_simulacion_2024.policies.SelectionPolicy;
+import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy;
 
 public class EndOfService implements Planificator {
 
   private Event e;
 
-  private final SelectionPolicy<Server, Server> serverSelectionPolicy;
-  private final SelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
+  private final dequeSelectionPolicy<Server, Server> serverSelectionPolicy;
+  private final dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
 
-  public EndOfService(SelectionPolicy<Server, Server> serverSelectionPolicy, SelectionPolicy<Server, Entidad> dequeueSelectionPolicy){
+  public EndOfService(dequeSelectionPolicy<Server, Server> serverSelectionPolicy, dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy){
     this.dequeueSelectionPolicy = dequeueSelectionPolicy;
     this.serverSelectionPolicy = serverSelectionPolicy;  
   }
@@ -25,8 +25,8 @@ public class EndOfService implements Planificator {
       
     // de todas las colas que veo, hay alguien esperando? si hay varios? cual pasa
     // a ser atendido? y donde?
-    if (this.hayAlguienEsperando(servers)) {
-      
+    if (this.hayAlguienEsperando(servers, dataManager)) {
+
       Entidad entity = this.dequeueSelectionPolicy.select(server.getId(),servers);
       
       server = this.serverSelectionPolicy.select(server.getId(),servers);
@@ -55,10 +55,12 @@ public class EndOfService implements Planificator {
     dataManager.acumularTiempoDeTrancito(this.e.getClock() - this.e.getEntidad().getClockArrival());
   }
 
-  private boolean hayAlguienEsperando(List<Server> servers) {
+  private boolean hayAlguienEsperando(List<Server> servers, DataManager data) {
     for (Server s : servers) {
-      if (!s.getQueue().isEmpty())
+      if (!s.getQueue().isEmpty()) {
+        data.tamañoColaDeEsperaMaxYMin( s.getQueue().size() );  // AGREGUE ACA EL CALCULO DEL LOS TAMAÑOS DE ESPERA
         return true;
+      }
     }
     return false;
   }

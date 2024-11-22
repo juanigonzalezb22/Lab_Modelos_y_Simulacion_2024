@@ -8,7 +8,7 @@ import com.modelos_y_simulacion_2024.dominio.Server;
 public class PoliticaDesencolarUnicoServer implements SelectionPolicy<Server, Entidad>{
 
     @Override
-    public Entidad select(int id, List<Server> options) {
+    public Entidad select( List<Server> options) {
         
         return options.get(0).getQueue().nextEntity();
 

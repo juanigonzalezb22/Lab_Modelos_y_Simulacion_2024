@@ -4,6 +4,7 @@ package com.modelos_y_simulacion_2024.dominio;
 import java.util.List;
 
 import com.modelos_y_simulacion_2024.policies.SelectionPolicy;
+import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy;
 
 public abstract class Bootstraping implements Engine {
   private final double simulation_length;
@@ -15,8 +16,8 @@ public abstract class Bootstraping implements Engine {
   
   private final SelectionPolicy<Server,Server> arrivalServerSelectionPolicy;
   private final SelectionPolicy<Queue,Queue> enqueueSelectionPolicy;
-  private final SelectionPolicy<Server, Server> eosServerSelectionPolicy;
-  private final SelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
+  private final dequeSelectionPolicy<Server, Server> eosServerSelectionPolicy;
+  private final dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
 
   private List<Server> servers;
   private double currentClock;
@@ -28,8 +29,8 @@ public abstract class Bootstraping implements Engine {
                       Behavior eosBehavior, 
                       SelectionPolicy<Server,Server> arrivalServerSelectionPolicy, 
                       SelectionPolicy<Queue,Queue> enqueueSelectionPolicy,
-                      SelectionPolicy<Server, Server> eosServerSelectionPolicy,
-                      SelectionPolicy<Server, Entidad> dequeueSelectionPolicy,
+                      dequeSelectionPolicy<Server, Server> eosServerSelectionPolicy,
+                      dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy,
                       DataManager dataManager
                       ){
     this.simulation_length = simulation_length;
@@ -49,7 +50,7 @@ public abstract class Bootstraping implements Engine {
     a.setEvent(e);
     a.setEndOfServiceBehavior(this.eosBehavior);
     fel.insertEvent(e);
-    System.out.println(this.fel.toString());
+    //System.out.println(this.fel.toString());
   }
 
   public void execute(){
@@ -70,20 +71,29 @@ public abstract class Bootstraping implements Engine {
 
   }
 
-  // public void generate_report(){
-  //   System.out.println("Tiempo de espera acumulado: " + this.dataManager.getTiempoDeEsperaAcumulado());
-  //   System.out.println("Cantidad de entidades servidas: " + this.dataManager.getCantServidos());
-  //   System.out.println("Tiempo de trancito acumulado: " + this.dataManager.getTiempoDeTrancito());
-    
-  //   for(Server s : this.servers){
-  //     System.out.println("Tiempo de ocio para el server "+s.getId()+" : "+ s.getOcioTotal());
-  //   }
-  // }
-
   public void generate_report(){
-    double mediaEspera = this.dataManager.getTiempoDeEsperaAcumulado() / this.dataManager.getCantServidos();
-    //System.out.println("Media de Espera: "+mediaEspera);
+    System.out.println("Cantidad de entidades servidas: " + this.dataManager.getCantServidos());
+
+    System.out.println("Tamaño maximo de cola de espera: " +this.dataManager.getMaximaColaDeEspera());
+    System.out.println("Tamaño minimo de cola de espera: " + this.dataManager.getMinimaColaDeEspera());
+
+    System.out.println("Tiempo de espera acumulado: " + this.dataManager.getTiempoDeEsperaAcumulado());
+    System.out.println("Tiempo de espera maximo: "+ this.dataManager.getMaxTiempoDeEspera());
+    System.out.println("Tiempo de espera minimo: "+ this.dataManager.getMinTiempoDeEspera());
+    
+    System.out.println("Tiempo de trancito acumulado: " + this.dataManager.getTiempoDeTrancito());
+    System.out.println("Tiempo de trancito maximo: " + this.dataManager.getMaxTiempoDeTrancito());
+    System.out.println("Tiempo de trancito minimo: " + this.dataManager.getMinTIempoDeTrancito());
+
+    for(Server s : this.servers){
+      System.out.println("Tiempo de ocio para el server "+s.getId()+" : "+ s.getOcioTotal());
+    }
   }
+
+  // public void generate_report(){
+  //   double mediaEspera = this.dataManager.getTiempoDeEsperaAcumulado() / this.dataManager.getCantServidos();
+  //   //System.out.println("Media de Espera: "+mediaEspera);
+  // }
 
   public void setServers(List<Server> servers){
     this.servers = servers;

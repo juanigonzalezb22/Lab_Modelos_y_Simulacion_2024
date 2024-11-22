@@ -5,7 +5,6 @@ public class Server {
   private Entidad entity;
   private Queue queue;
   
-
   private double ocioTotal = 0;
   private double inicioTiempoOcio = 0;
 
@@ -47,6 +46,10 @@ public class Server {
         
       this.ocioTotal += (clockFinalizaOcio - this.inicioTiempoOcio);
       this.inicioTiempoOcio = 0;
+  }
+
+  public double getOcioActual(double clockFinalizaOcio){
+    return clockFinalizaOcio - this.inicioTiempoOcio;
   }
 
   public double getOcioTotal(){
