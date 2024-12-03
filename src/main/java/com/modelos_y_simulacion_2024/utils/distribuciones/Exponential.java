@@ -5,10 +5,12 @@ public class Exponential implements Distribution {
     private final double lambda;
     private final double mu;
 
-    public Exponential(double lambda){
-        this.lambda = lambda;
-        this.mu = 1d/lambda;
+    public Exponential(double factor, double mu){
+        this.lambda = factor / mu;
+        this.mu = mu;
     }
+
+
 
     @Override
     public double probabilidad(double x) {
@@ -22,9 +24,10 @@ public class Exponential implements Distribution {
     @Override
     public double sample(double x) {
       if( x >= 0 ){
-        return -this.mu * Math.log(1-x);
+        return -this.mu * Math.log(1 - x);
       } else {
         return 0;
       }
     }
 }
+

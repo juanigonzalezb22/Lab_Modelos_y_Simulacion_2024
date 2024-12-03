@@ -11,28 +11,26 @@ public class HoraPicoExponencial implements Behavior {
 
     private final Exponential exponential;
     private final Exponential exponential_hora_pico;
-    private final List<Pair<Double,Double>> intervals; 
+    private final List<Pair<Double, Double>> intervals;
 
-
-    public HoraPicoExponencial(double muEstandar, double horaPico, List<Pair<Double,Double>> intervals ){
-        this.exponential = new Exponential(muEstandar);
-        this.exponential_hora_pico = new Exponential(horaPico);
+    public HoraPicoExponencial(double muEstandar, double muHoraPico, List<Pair<Double, Double>> intervals) {
+        this.exponential = new Exponential(60, muEstandar);
+        this.exponential_hora_pico = new Exponential(60, muHoraPico);
         this.intervals = intervals;
     }
 
     @Override
     public double nextTime(double clock) {
-        
-        //tesatear que anda bien... printear si hace bien el modulo
-        
-        double hora = clock % 1440;
+        double hora = clock % 1440; // Hora actual en minutos (dentro de un día de 1440 minutos)
 
-        if( (540 <= hora && hora <= 780) || (1200 <= hora && hora <= 1380) ){
+        // Verificar si la hora está dentro de algún intervalo en la lista
+        boolean esHoraPico = intervals.stream()
+                .anyMatch(interval -> hora >= interval.e1() && hora <= interval.e2());
+
+        if (esHoraPico) {
             return this.exponential_hora_pico.sample(ThreadLocalRandom.current().nextDouble());
-        }
-        else{
+        } else {
             return this.exponential.sample(ThreadLocalRandom.current().nextDouble());
         }
     }
-    
 }

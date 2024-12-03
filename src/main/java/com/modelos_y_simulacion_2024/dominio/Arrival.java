@@ -3,8 +3,8 @@ package com.modelos_y_simulacion_2024.dominio;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.modelos_y_simulacion_2024.policies.SelectionPolicy;
-import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy;
+import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy.DequeSelectionPolicy;
+import com.modelos_y_simulacion_2024.policies.selectionPolicy.SelectionPolicy;
 
 public class Arrival implements Planificator {
   
@@ -12,14 +12,14 @@ public class Arrival implements Planificator {
   private Behavior eosBehavior;
   private final SelectionPolicy<Server, Server> serverSelectionPolicy;
   private final SelectionPolicy<Queue, Queue> enqueueSelectionPolicy;
-  private final dequeSelectionPolicy<Server, Server> eosServerSelectionPolicy;
-  private final dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy;
+  private final DequeSelectionPolicy<Server, Server> eosServerSelectionPolicy;
+  private final DequeSelectionPolicy<Server, Entity> dequeueSelectionPolicy;
 
   public Arrival(
                 SelectionPolicy<Server,Server> serverSelectionPolicy,
                 SelectionPolicy<Queue,Queue> enqueueSelectionPolicy,
-                dequeSelectionPolicy<Server, Server> eosServerSelectionPolicy,
-                dequeSelectionPolicy<Server, Entidad> dequeueSelectionPolicy
+                DequeSelectionPolicy<Server, Server> eosServerSelectionPolicy,
+                DequeSelectionPolicy<Server, Entity> dequeueSelectionPolicy
     ) {
     this.serverSelectionPolicy = serverSelectionPolicy;
     this.enqueueSelectionPolicy = enqueueSelectionPolicy;
@@ -45,14 +45,17 @@ public class Arrival implements Planificator {
           Queue q = this.enqueueSelectionPolicy.select(queueAux);
           q.enqueue(this.e.getEntidad());
           
+          dataManager.tamañoColaDeEsperaMaxYMin( q.size() );  // AGREGUE ACA EL CALCULO DEL LOS TAMAÑOS DE ESPERA
+
           this.e.getEntidad().setClock_inicio_espera(this.e.getClock());
       } else {
         
           server.setEntity(this.e.getEntidad());
           this.e.getEntidad().setServer(server);
 
-          server.finalizaTiempoOcio(this.e.getClock());
           dataManager.acumularTiempoDeOcio( server.getOcioActual(this.e.getClock()) );  //AGREGO EL OCIO AL DATA MANAGER
+          server.finalizaTiempoOcio(this.e.getClock());
+          
           this.planificarFinDeServicio(fel, server, this.e);
       }
 
@@ -73,7 +76,7 @@ public class Arrival implements Planificator {
 
   private void planificarNuevaLlegada(FEL fel, double nextArrivalClock, Event event) {
       Arrival arrival = new Arrival(this.serverSelectionPolicy, this.enqueueSelectionPolicy, this.eosServerSelectionPolicy, this.dequeueSelectionPolicy);
-      Entidad entidad = new Entidad(event.getEntidad().getId() + 1, nextArrivalClock);
+      Entity entidad = new Entity(event.getEntidad().getId() + 1, nextArrivalClock);
       Event newEvent = new Event(nextArrivalClock, event.getBehavior(), entidad, arrival);
       arrival.setEvent(newEvent);
       arrival.setEndOfServiceBehavior(this.eosBehavior);

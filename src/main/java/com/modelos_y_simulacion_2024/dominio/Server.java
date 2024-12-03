@@ -2,7 +2,7 @@ package com.modelos_y_simulacion_2024.dominio;
 
 public class Server {
   private int id;
-  private Entidad entity;
+  private Entity entity;
   private Queue queue;
   
   private double ocioTotal = 0;
@@ -26,11 +26,11 @@ public class Server {
     return this.queue;
   }
 
-  public void setEntity(Entidad entity){
+  public void setEntity(Entity entity){
     this.entity = entity;
   }
 
-  public void enqueue(Entidad enditad){
+  public void enqueue(Entity enditad){
     //ESTE METODO PUEDE DECIR COMO PONER EN COLA EN CASO DE QUE UN SERVIDOR TENGA MULTIPELS SERVIDORES.
     this.queue.enqueue( enditad );
 
@@ -49,6 +49,8 @@ public class Server {
   }
 
   public double getOcioActual(double clockFinalizaOcio){
+    if(clockFinalizaOcio < this.inicioTiempoOcio)
+      throw new RuntimeException("desfasage de clocks para calcular el ocio de servidor");
     return clockFinalizaOcio - this.inicioTiempoOcio;
   }
 

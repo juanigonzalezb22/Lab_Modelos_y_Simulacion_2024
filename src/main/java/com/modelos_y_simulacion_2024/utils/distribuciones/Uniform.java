@@ -19,6 +19,6 @@ public class Uniform implements Distribution {
 
     @Override
     public double sample(double x) {
-        return  x * ( this.b - this.a ) + this.a;
+        return  ( x * ( this.b - this.a ) ) + this.a;
     }
 }

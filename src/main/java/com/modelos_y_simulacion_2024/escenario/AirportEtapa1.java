@@ -7,10 +7,10 @@ import com.modelos_y_simulacion_2024.dominio.Behavior;
 import com.modelos_y_simulacion_2024.dominio.Bootstraping;
 import com.modelos_y_simulacion_2024.dominio.DataManager;
 import com.modelos_y_simulacion_2024.dominio.Server;
-import com.modelos_y_simulacion_2024.policies.PoliticaDeUnicoServidor;
-import com.modelos_y_simulacion_2024.policies.PoliticaDeUnicoServidor2;
-import com.modelos_y_simulacion_2024.policies.PoliticaDeUnicaCola;
-import com.modelos_y_simulacion_2024.policies.PoliticaDesencolarUnoAUno;
+import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy.PoliticaDeUnicoServidor2;
+import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy.PoliticaDesencolarUnoAUno;
+import com.modelos_y_simulacion_2024.policies.selectionPolicy.PoliticaDeUnicaCola;
+import com.modelos_y_simulacion_2024.policies.selectionPolicy.PoliticaDeUnicoServidor;
 
 public final class AirportEtapa1 extends Bootstraping {
     

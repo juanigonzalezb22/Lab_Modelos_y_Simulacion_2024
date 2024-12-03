@@ -3,25 +3,25 @@ package com.modelos_y_simulacion_2024.escenario;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.modelos_y_simulacion_2024.dominio.Entidad;
+import com.modelos_y_simulacion_2024.dominio.Entity;
 import com.modelos_y_simulacion_2024.dominio.Queue;
 
 public class CustomQueue implements Queue{
   private int id;
-  private List<Entidad> q;
+  private List<Entity> q;
 
   public CustomQueue(int id) {
     this.id = id;
-    this.q = new ArrayList<Entidad>();
+    this.q = new ArrayList<Entity>();
   }
 
   @Override
-  public void enqueue(Entidad enditad) {
+  public void enqueue(Entity enditad) {
     this.q.add(enditad);
   }
 
   @Override
-  public Entidad nextEntity() {
+  public Entity nextEntity() {
     return this.q.remove(0);
   }
 

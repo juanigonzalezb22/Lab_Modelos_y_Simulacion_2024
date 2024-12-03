@@ -8,7 +8,7 @@ public class DataManager {
 
     private double tiempoDeTrancito = 0;
     private double maxTiempoDeTrancito = 0;
-    private double minTIempoDeTrancito = Double.MAX_VALUE;
+    private double minTiempoDeTrancito = Double.MAX_VALUE;
     private double medTiempoDeTrancito = 0;
 
     private double tiempoDeEsperaAcumulado = 0;
@@ -30,13 +30,26 @@ public class DataManager {
         this.dataManagerPadre = dataManagerPadre;
     }
 
+    public double getTiempoDeOcioAcumulado(){
+        return tiempoDeOcioAcumulado;
+    }
+
+    public double getMaxtiempoDeOcio(){
+        return maxtiempoDeOcio;
+    }
+
+    public double getMintiempoDeOcio(){
+        return mintiempoDeOcio;
+    }
+
+
     public int getMaximaColaDeEspera(){
         return this.maxColaDeEspera;
     }
 
     public int getMinimaColaDeEspera(){
         if ( this.minColaDeEspera == Integer.MAX_VALUE ) {
-            return 0;
+            return -1;
         }
         return this.minColaDeEspera;
     }
@@ -69,8 +82,8 @@ public class DataManager {
         return this.maxTiempoDeTrancito;
     }
 
-    public double getMinTIempoDeTrancito(){
-        return this.minTIempoDeTrancito;
+    public double getMinTiempoDeTrancito(){
+        return this.minTiempoDeTrancito;
     }
 
 
@@ -89,8 +102,8 @@ public class DataManager {
         if ( tiempoTrancito > this.maxTiempoDeTrancito ) {
             this.maxTiempoDeTrancito = tiempoTrancito;
         }
-        if ( tiempoTrancito < this.minTIempoDeTrancito ) {
-            this.minTIempoDeTrancito = tiempoTrancito;
+        if ( tiempoTrancito < this.minTiempoDeTrancito ) {
+            this.minTiempoDeTrancito = tiempoTrancito;
         }
     }
 

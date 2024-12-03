@@ -49,13 +49,6 @@ public class Normal {
     return distribucion_normal;
   }
 
-  public double sample(double x, double media, double varianza){
-    
-    //COMPLETAR
-    
-    return 0.0;
-  }
-
   public double generarVariableNormal() {
     
     //PASO 1

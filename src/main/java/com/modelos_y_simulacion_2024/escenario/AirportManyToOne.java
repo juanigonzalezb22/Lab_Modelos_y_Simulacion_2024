@@ -1,0 +1,38 @@
+package com.modelos_y_simulacion_2024.escenario;
+import java.util.ArrayList;
+import java.util.List;
+import com.modelos_y_simulacion_2024.dominio.Behavior;
+import com.modelos_y_simulacion_2024.dominio.Bootstraping;
+import com.modelos_y_simulacion_2024.dominio.Server;
+import com.modelos_y_simulacion_2024.policies.dequeSelectionPolicy.DequeSelectionPolicy;
+import com.modelos_y_simulacion_2024.policies.selectionPolicy.SelectionPolicy;
+import com.modelos_y_simulacion_2024.dominio.DataManager;
+import com.modelos_y_simulacion_2024.dominio.Entity;
+import com.modelos_y_simulacion_2024.dominio.Queue;
+
+
+public final class AirportManyToOne extends Bootstraping {
+  
+  public AirportManyToOne(double init_time, 
+                  double simulation_length, 
+                  int serverQuantity, 
+                  Behavior arrivalBehavior,
+                  Behavior eosBehavior,
+                  SelectionPolicy<Server,Server> arrivalServerSelectionPolicy,
+                  SelectionPolicy<Queue, Queue> enqueueSelectionPolicy,
+                  DequeSelectionPolicy<Server, Server> eosServerSelectionPolicy,
+                  DequeSelectionPolicy<Server, Entity> dequeueSelectionPolicy,
+                  DataManager dataManager
+                  ){
+    super(init_time,simulation_length,arrivalBehavior,eosBehavior, arrivalServerSelectionPolicy, enqueueSelectionPolicy, eosServerSelectionPolicy, dequeueSelectionPolicy, dataManager);
+
+    CustomQueue unicaCola =  new CustomQueue(0);
+
+    List<Server> servers = new ArrayList<Server>();
+    for (int i = 0; i < serverQuantity; i++) {
+      servers.add(new Server( unicaCola,i)); 
+    }
+
+    this.setServers(servers);
+  }
+}

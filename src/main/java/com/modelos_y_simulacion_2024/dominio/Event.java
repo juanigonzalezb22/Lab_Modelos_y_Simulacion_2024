@@ -3,10 +3,10 @@ package com.modelos_y_simulacion_2024.dominio;
 public final class Event {
   private final double clock;
   private final Behavior behavior;
-  private final Entidad enditad;
+  private final Entity enditad;
   private final Planificator planificator;
 
-  public Event(double clock ,Behavior behavior, Entidad entidad, Planificator planificator ) {
+  public Event(double clock ,Behavior behavior, Entity entidad, Planificator planificator ) {
     this.clock = clock;
     this.behavior = behavior;
     this.enditad = entidad;
@@ -21,7 +21,7 @@ public final class Event {
     return behavior;
   }
 
-  public Entidad getEntidad() {
+  public Entity getEntidad() {
     return enditad;
   }
 
